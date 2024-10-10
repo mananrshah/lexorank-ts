@@ -280,8 +280,8 @@ export class LexoInteger {
     return LexoInteger.make(this.sys, this.sign, newMap);
   }
 
-  // convert [1.02, 5.7] to [1,5]
-  public roundDown(): LexoInteger {
+  // convert [1.02, 5.7] to [2,6]
+  public round(): LexoInteger {
     const newMap: number[] = this.mag.map((num) => Math.ceil(num));
     return LexoInteger.make(this.sys, this.sign, newMap);
   }

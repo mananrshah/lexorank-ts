@@ -93,9 +93,9 @@ export class LexoDecimal {
     return LexoDecimal.make(this.mag.divide(other), this.sig);
   }
 
-  public roundDown(): LexoDecimal {
+  public round(): LexoDecimal {
 
-    return LexoDecimal.make(this.mag.roundDown(), this.sig);
+    return LexoDecimal.make(this.mag.round(), this.sig);
   }
 
   public multiply(other: LexoDecimal): LexoDecimal {

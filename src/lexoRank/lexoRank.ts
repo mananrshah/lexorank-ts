@@ -111,7 +111,7 @@ export class LexoRank {
     const result: LexoDecimal[] = [];
     const range: LexoDecimal = oRight.subtract(oLeft);
     const step = range.multiply(range.divide(noOfLexoDecimal + 1));
-    const roundedStep = step.roundDown();
+    const roundedStep = step.round();
 
 
     for (let i = 0; i < noOfLexoDecimal; i++) {
