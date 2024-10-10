@@ -2,6 +2,7 @@ import { LexoDecimal } from './lexoDecimal';
 import LexoRankBucket from './lexoRankBucket';
 import StringBuilder from '../utils/stringBuilder';
 import { LexoNumeralSystem36 } from '../numeralSystems';
+import { LexoInteger } from './lexoInteger';
 
 export class LexoRank {
   public static get NUMERAL_SYSTEM() {
@@ -95,6 +96,30 @@ export class LexoRank {
     return bucket === LexoRankBucket.BUCKET_0
       ? LexoRank.from(bucket, LexoRank.INITIAL_MIN_DECIMAL)
       : LexoRank.from(bucket, LexoRank.INITIAL_MAX_DECIMAL);
+  }
+
+
+  public static betweens(oLeft: LexoDecimal, oRight: LexoDecimal, noOfLexoDecimal: number): LexoDecimal[] {
+    if (noOfLexoDecimal < 1) {
+      throw new Error('Number of LexoDecimal values must be at least 1');
+    }
+
+    if (oLeft.getSystem().getBase() !== oRight.getSystem().getBase()) {
+      throw new Error('Expected same system');
+    }
+
+    const result: LexoDecimal[] = [];
+    const range: LexoDecimal = oRight.subtract(oLeft);
+    const step = range.multiply(range.divide(noOfLexoDecimal + 1));
+    const roundedStep = step.round();
+
+
+    for (let i = 0; i < noOfLexoDecimal; i++) {
+      oLeft = oLeft.add(roundedStep);
+      result.push(oLeft);
+    }
+
+    return result;
   }
 
   public static between(oLeft: LexoDecimal, oRight: LexoDecimal): LexoDecimal {
@@ -310,6 +335,39 @@ export class LexoRank {
 
     return new LexoRank(this.bucket, LexoRank.between(this.decimal, other.decimal));
   }
+
+
+  public betweens(other: LexoRank, requiredLexoRanks: number): LexoRank[] {
+
+    if (!this.bucket.equals(other.bucket)) {
+      throw new Error('Between works only within the same bucket');
+    }
+
+    const cmp = this.decimal.compareTo(other.decimal);
+    if (cmp === 0) {
+      throw new Error(
+          'Try to rank between issues with same rank this=' +
+          this +
+          ' other=' +
+          other +
+          ' this.decimal=' +
+          this.decimal +
+          ' other.decimal=' +
+          other.decimal
+      );
+    }
+
+    const lexoDecimals: LexoDecimal[] = LexoRank.betweens( this.decimal, other.decimal, requiredLexoRanks);
+
+    const lexoRanks: LexoRank[] = [];
+
+    for (const lexoDecimal of lexoDecimals) {
+      lexoRanks.push(new LexoRank(this.bucket, lexoDecimal));
+    }
+
+    return lexoRanks;
+  }
+
 
   public getBucket(): LexoRankBucket {
     return this.bucket;
