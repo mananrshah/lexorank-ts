@@ -87,6 +87,17 @@ export class LexoDecimal {
     return LexoDecimal.make(thisMag.subtract(otherMag), thisSig);
   }
 
+  public divide(other: number): LexoDecimal{
+     // if zero then throw exception
+
+    return LexoDecimal.make(this.mag.divide(other), this.sig);
+  }
+
+  public roundDown(): LexoDecimal {
+
+    return LexoDecimal.make(this.mag.roundDown(), this.sig);
+  }
+
   public multiply(other: LexoDecimal): LexoDecimal {
     return LexoDecimal.make(this.mag.multiply(other.mag), this.sig + other.sig);
   }

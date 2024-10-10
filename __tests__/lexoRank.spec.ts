@@ -7,7 +7,18 @@ describe('LexoRank', () => {
   //   expect(minRank.toString()).toEqual('0|000000:');
   // });
 
-  it('scenario with large in between lexorank', () => {
+  it('scenario with 10 in between lexorank for long lexorank', () => {
+
+    const maxLexoRank = LexoRank.parse('0|i00006:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzr');
+    const leftLexoRank = LexoRank.parse('0|i00006:zzr');
+
+   const lexoRanks: LexoRank[] = leftLexoRank.betweens(maxLexoRank, 10);
+
+   console.log('between lexoRank {}', lexoRanks);
+
+  });
+
+  it('scenario with 100 in between lexorank for long lexorank', () => {
 
     const maxLexoRank = LexoRank.parse('0|i00006:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzr');
     const leftLexoRank = LexoRank.parse('0|i00006:zzr');
@@ -18,10 +29,22 @@ describe('LexoRank', () => {
 
   });
 
+
+  it('scenario with large in between lexorank', () => {
+
+    const maxLexoRank = LexoRank.parse('0|i00006:zzz');
+    const leftLexoRank = LexoRank.parse('0|i00006:zzr');
+
+    const lexoRanks: LexoRank[] = leftLexoRank.betweens(maxLexoRank, 100);
+
+    console.log('between lexoRank {}', lexoRanks);
+
+  });
+
   it('scenario with small in between lexorank', () => {
 
-    const maxLexoRank = LexoRank.parse('0|i00006:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzr');
-    const leftLexoRank = LexoRank.parse('0|i00006:zzr');
+    const maxLexoRank = LexoRank.parse('0|i00006');
+    const leftLexoRank = LexoRank.parse('0|i00005');
 
     const lexoRanks: LexoRank[] = leftLexoRank.betweens(maxLexoRank, 10);
 

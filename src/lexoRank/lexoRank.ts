@@ -110,12 +110,12 @@ export class LexoRank {
 
     const result: LexoDecimal[] = [];
     const range: LexoDecimal = oRight.subtract(oLeft);
-    const increment: number = (range.getSystem().getBase() / (noOfLexoDecimal + 1)); // TODO add | 0
-    const parts: LexoDecimal = LexoDecimal.make(LexoInteger.make(range.getSystem(), 1, [increment]), 1);
-    const step = range.multiply(parts);
+    const step = range.multiply(range.divide(noOfLexoDecimal + 1));
+    const roundedStep = step.roundDown();
+
 
     for (let i = 0; i < noOfLexoDecimal; i++) {
-      oLeft = oLeft.add(step);
+      oLeft = oLeft.add(roundedStep);
       result.push(oLeft);
     }
 

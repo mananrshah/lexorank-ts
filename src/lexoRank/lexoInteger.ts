@@ -275,6 +275,17 @@ export class LexoInteger {
     return LexoInteger.make(this.sys, this.sign, LexoInteger.complement(this.sys, this.mag, digits));
   }
 
+  public divide(r: number): LexoInteger {
+    const newMap: number[] = this.mag.map((num) => num / r);
+    return LexoInteger.make(this.sys, this.sign, newMap);
+  }
+
+  // convert [1.02, 5.7] to [1,5]
+  public roundDown(): LexoInteger {
+    const newMap: number[] = this.mag.map((num) => Math.ceil(num));
+    return LexoInteger.make(this.sys, this.sign, newMap);
+  }
+
   public isZero(): boolean {
     return this.sign === 0 && this.mag.length === 1 && this.mag[0] === 0;
   }
